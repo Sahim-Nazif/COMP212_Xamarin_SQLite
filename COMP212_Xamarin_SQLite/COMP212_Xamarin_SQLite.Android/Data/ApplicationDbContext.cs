@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -14,7 +14,7 @@ using SQLite;
 
 namespace COMP212_Xamarin_SQLite.Droid.Data
 {
-    public  class ApplicationDbContext
+    public class ApplicationDbContext
     {
         readonly SQLiteAsyncConnection _database;
 
@@ -24,7 +24,14 @@ namespace COMP212_Xamarin_SQLite.Droid.Data
             _database.CreateTableAsync<Movie>().Wait();
 
         }
-
-
+        public Task<List<Movie>> GetMovieAsync()
+        {
+            return _database.Table<Movie>().ToListAsync();
+        }
+        public Task<int> SaveMovieAsync(Movie movie)
+        {
+            return _database.InsertAsync(movie);
+        }
     }
+    
 }
